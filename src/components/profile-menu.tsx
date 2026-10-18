@@ -41,21 +41,21 @@ export function ProfileMenu({
 
   if (!alias && !email) {
     return (
-      <a
-        href="/auth/login"
+      <Link
+        href="/account"
         className="login-button"
         style={{
           display: "inline-flex",
           alignItems: "center",
-          gap: 9,
-          padding: "9px 16px",
+          gap: 6,
+          padding: "9px 18px",
           borderRadius: 8,
           fontSize: 13,
           fontWeight: 600,
         }}
       >
-        <GoogleIcon size={16} /> Sign In
-      </a>
+        Login
+      </Link>
     );
   }
 
