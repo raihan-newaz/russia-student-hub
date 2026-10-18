@@ -12,6 +12,14 @@ export const metadata: Metadata = {
   },
   description:
     "রাশিয়ায় পড়তে যাওয়ার প্রস্তুতি, ভিসা অভিজ্ঞতা ও নিজের যাত্রার তথ্য—এক জায়গায়।",
+  icons: {
+    icon: [
+      { url: "/icon", type: "image/svg+xml" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+    apple: "/icon",
+  },
 };
 export default function RootLayout({
   children,
