@@ -1,5 +1,6 @@
 import { Shell, Heading, GoogleIcon } from "@/components/shell";
 import { ActionForm } from "@/components/action-form";
+import { AuthTabs } from "@/components/auth-tabs";
 import { StoryEditor } from "@/components/story-editor";
 import { identity, isDemo } from "@/lib/data";
 import { configured, db } from "@/lib/supabase";
@@ -8,7 +9,6 @@ import {
   signOut,
   deleteAccount,
   markNotifications,
-  signInWithPassword,
 } from "@/lib/actions";
 import { GraduationCap, ArrowUpRight, ShieldCheck } from "lucide-react";
 export const dynamic = "force-dynamic";
@@ -106,36 +106,9 @@ export default async function Account({
             <ArrowUpRight size={18} />
           </a>
           <div className="login-divider">
-            <span>Or Sign In with Email</span>
+            <span>Or Continue with Email</span>
           </div>
-          <div className="email-login-box">
-            <ActionForm action={signInWithPassword} success="লগইন সফল হচ্ছে…">
-              <label>
-                Email Address
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="name@example.com"
-                />
-              </label>
-              <label>
-                Password
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  placeholder="আপনার পাসওয়ার্ড"
-                />
-              </label>
-              <button
-                className="button"
-                style={{ marginTop: 8, width: "100%", fontWeight: 600 }}
-              >
-                Sign In with Password
-              </button>
-            </ActionForm>
-          </div>
+          <AuthTabs />
           <small style={{ marginTop: 24 }}>
             <ShieldCheck size={14} /> আপনার নাম ও পরিচয় সবসময় সুরক্ষিত ও গোপন
           </small>

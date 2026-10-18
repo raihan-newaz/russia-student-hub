@@ -204,6 +204,39 @@ export async function signInWithPassword(form: FormData) {
   redirect("/journey");
 }
 
+export async function signUpWithPassword(form: FormData) {
+  if (!configured()) throw Error("Supabase configuration প্রয়োজন।");
+  const name = String(form.get("name") || "").trim();
+  const email = String(form.get("email") || "").trim();
+  const password = String(form.get("password") || "").trim();
+  if (!email || !password) throw Error("ইমেইল ও পাসওয়ার্ড প্রদান করুন।");
+  if (password.length < 6) throw Error("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
+  
+  const client = await db();
+  const { data, error } = await client.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name || email.split("@")[0],
+        name: name || email.split("@")[0],
+      },
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://russianvisa.vercel.app"}/auth/callback`,
+    },
+  });
+
+  if (error) throw Error(error.message);
+
+  // If Supabase has email confirmation disabled, user is immediately logged in
+  if (data.session) {
+    refresh();
+    redirect("/journey");
+  } else {
+    // If email confirmation is enabled on Supabase
+    return { ok: true, message: "আপনার ইমেইলে একটি ভেরিফিকেশন লিংক পাঠানো হয়েছে। দয়া করে ইমেইল চেক করুন।" };
+  }
+}
+
 export async function signInWithOtp(form: FormData) {
   if (!configured()) throw Error("Supabase configuration প্রয়োজন।");
   const email = String(form.get("email") || "").trim();
