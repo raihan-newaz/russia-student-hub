@@ -155,6 +155,8 @@ export function Shell({
             <ShieldCheck size={14} /> আপনার পরিচয়, আপনার নিয়ন্ত্রণে
           </span>
           <Link href="/privacy">গোপনীয়তা ও তথ্যনীতি</Link>
+          <span>·</span>
+          <Link href="/terms">ব্যবহারের শর্তাবলী</Link>
         </footer>
       </div>
       <nav className="mobile-nav">
