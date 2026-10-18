@@ -53,8 +53,8 @@ export default async function Account({
       demo={isDemo()}
     >
       <Heading
-        title="আমার অ্যাকাউন্ট"
-        description="পরিচয়, privacy, অভিজ্ঞতা ও notification পরিচালনা করুন।"
+        title="My Account"
+        description="Manage your profile, privacy settings, shared stories, and notifications."
       />
       {!configured() && (
         <p className="notice">

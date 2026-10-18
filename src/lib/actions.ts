@@ -237,17 +237,30 @@ export async function signUpWithPassword(form: FormData) {
   }
 }
 
-export async function signInWithOtp(form: FormData) {
+export async function resetPasswordRequest(form: FormData) {
   if (!configured()) throw Error("Supabase configuration প্রয়োজন।");
   const email = String(form.get("email") || "").trim();
-  if (!email || !email.includes("@")) throw Error("সঠিক ইমেইল দিন।");
+  if (!email || !email.includes("@")) throw Error("সঠিক ইমেইল প্রদান করুন।");
+
   const client = await db();
-  const { error } = await client.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-    },
+  const { error } = await client.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://russianvisa.vercel.app"}/auth/callback?next=/account/reset-password`,
   });
+
   if (error) throw Error(error.message);
+
+  return { ok: true, message: "পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে। অনুগ্রহ করে ইনবক্স বা স্প্যাম ফোল্ডার চেক করুন।" };
+}
+
+export async function updatePassword(form: FormData) {
+  const password = String(form.get("password") || "").trim();
+  if (!password || password.length < 6) throw Error("নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
+  
+  const client = await db();
+  const { error } = await client.auth.updateUser({ password });
+  if (error) throw Error(error.message);
+
+  refresh();
+  redirect("/journey");
 }
 
