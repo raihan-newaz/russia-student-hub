@@ -56,6 +56,7 @@ export function Shell({
             <Link
               key={href}
               href={href}
+              prefetch={true}
               className={`nav-link ${active === href ? "active" : ""}`}
             >
               <Icon size={20} />
@@ -66,6 +67,7 @@ export function Shell({
           {admin && (
             <Link
               href="/admin"
+              prefetch={true}
               className={`nav-link ${active === "/admin" ? "active" : ""}`}
             >
               <ShieldCheck size={20} />
@@ -164,6 +166,7 @@ export function Shell({
           <Link
             key={href}
             href={href}
+            prefetch={true}
             className={active === href ? "active" : ""}
           >
             <Icon size={20} />

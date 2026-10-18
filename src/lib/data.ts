@@ -1,9 +1,22 @@
 import { db, configured } from "./supabase";
 import { demoExperiences, demoDashboard } from "./demo";
+import { cookies } from "next/headers";
 export const isDemo = () =>
   process.env.DEMO_MODE === "true" && process.env.VERCEL_ENV !== "production";
 export async function identity() {
   if (!configured()) return null;
+
+  // Fast-path: Check cookies first. If user has no auth tokens, skip database/auth calls entirely
+  const jar = await cookies();
+  const allCookies = jar.getAll();
+  const hasAuthCookie = allCookies.some(
+    (c) =>
+      c.name.includes("sb-") ||
+      c.name.includes("supabase") ||
+      c.name.includes("auth-token")
+  );
+  if (!hasAuthCookie) return null;
+
   const c = await db();
   const {
     data: { user },
